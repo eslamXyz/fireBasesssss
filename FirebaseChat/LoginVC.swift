@@ -151,6 +151,10 @@ class LoginVC: UIViewController {
     
     @objc func registerBtnHandler() {
         print("HIHIHIHIHIHIHIIHIHIHi")
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "EshraVC") as! EshraVC
+        self.present(vc , animated: true , completion: nil )
     }
     
     
