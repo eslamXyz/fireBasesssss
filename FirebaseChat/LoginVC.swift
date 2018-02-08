@@ -48,6 +48,15 @@ class LoginVC: UIViewController {
         txt.translatesAutoresizingMaskIntoConstraints = false
         return txt
     }()
+    
+    let profileImage  : UIImageView = {
+       let img = UIImageView()
+        img.contentMode = .scaleAspectFill
+        img.image = UIImage(named:"2")
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
+    
     let stackView = UIStackView()
 
    
@@ -59,13 +68,14 @@ class LoginVC: UIViewController {
 //        UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
         self.view.addSubview(inputContainerView)
         self.view.addSubview(registerBtn)
-        self.view.addSubview(emailTxt)
-        self.view.addSubview(nickNameTxt)
-        self.view.addSubview(passwordTxt)
 
         setupInputContainerView()
+        self.view.addSubview(profileImage)
 //    setupTextField(targetView: emailTxt, topConsTo: inputContainerView)
-        
+        profileImage.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -16).isActive = true
+        profileImage.centerXAnchor.constraint(equalTo: inputContainerView.centerXAnchor, constant: 0).isActive = true
+        profileImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        profileImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
         let stackV = UIStackView()
 //        stackV.addArrangedSubview([emailTxt,nickNameTxt,passwordTxt])
 //        setupTextField()
@@ -95,8 +105,8 @@ class LoginVC: UIViewController {
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.clipsToBounds = true
-        stackView.spacing = 0
-        
+        stackView.spacing = 15
+        stackView.backgroundColor = UIColor(61, 91, 151, 1)
         
         stackView.topAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: 8).isActive = true
         stackView.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -8).isActive = true
