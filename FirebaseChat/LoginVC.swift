@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Firebase
+
 
 class LoginVC: UIViewController {
 
@@ -30,6 +33,17 @@ class LoginVC: UIViewController {
         return btn
     }()
     
+    let loginRegisterSegment : UISegmentedControl = {
+        
+       let segment = UISegmentedControl(items: ["Register","Login"])
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.selectedSegmentIndex = 0
+        segment.tintColor = .white
+        segment.addTarget(self, action: #selector(segmentControll(_:)), for: .valueChanged)
+        return segment
+    }()
+    
+  
     let emailTxt : UITextField = {
        let txt = UITextField()
         txt.placeholder = "Email"
@@ -59,6 +73,7 @@ class LoginVC: UIViewController {
     
     let stackView = UIStackView()
 
+    var inputViewHeight : NSLayoutConstraint?
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,14 +84,22 @@ class LoginVC: UIViewController {
         self.view.addSubview(inputContainerView)
         self.view.addSubview(registerBtn)
 
-        setupInputContainerView()
         self.view.addSubview(profileImage)
 //    setupTextField(targetView: emailTxt, topConsTo: inputContainerView)
-        profileImage.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -16).isActive = true
-        profileImage.centerXAnchor.constraint(equalTo: inputContainerView.centerXAnchor, constant: 0).isActive = true
+        profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         profileImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
         profileImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        let stackV = UIStackView()
+        
+        self.view.addSubview(loginRegisterSegment)
+        
+        loginRegisterSegment.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 15).isActive = true
+        loginRegisterSegment.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        loginRegisterSegment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -50).isActive = true
+        loginRegisterSegment.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        setupInputContainerView()
+
+//        let stackV = UIStackView()
 //        stackV.addArrangedSubview([emailTxt,nickNameTxt,passwordTxt])
 //        setupTextField()
 //        setupTextFieldnickName()
@@ -89,18 +112,30 @@ class LoginVC: UIViewController {
 
      }
  
+    @objc func segmentControll(_ sender : UISegmentedControl) {
+        
+        let title = sender.titleForSegment(at: sender.selectedSegmentIndex)
+        self.registerBtn.setTitle(title, for: .normal)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.inputViewHeight?.constant = sender.selectedSegmentIndex == 0 ? 150 : 100
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     
     func setupInputContainerView() {
         inputContainerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        inputContainerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
-        inputContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        inputContainerView.topAnchor.constraint(equalTo: self.loginRegisterSegment.bottomAnchor, constant: 15).isActive = true
+        inputViewHeight = inputContainerView.heightAnchor.constraint(equalToConstant: 150)
+        inputViewHeight?.isActive = true
         inputContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40).isActive = true
         
         inputContainerView.addSubview(stackView)
         stackView.backgroundColor = UIColor.blue
         stackView.addArrangedSubview(emailTxt)
-        stackView.addArrangedSubview(nickNameTxt)
         stackView.addArrangedSubview(passwordTxt)
+        stackView.addArrangedSubview(nickNameTxt)
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,8 +143,8 @@ class LoginVC: UIViewController {
         stackView.spacing = 15
         stackView.backgroundColor = UIColor(61, 91, 151, 1)
         
-        stackView.topAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: 8).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -8).isActive = true
+        stackView.topAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: 13).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: 120).isActive = true
         stackView.leadingAnchor.constraint(equalTo: inputContainerView.leadingAnchor, constant: 8).isActive = true
         stackView.trailingAnchor.constraint(equalTo: inputContainerView.trailingAnchor, constant: 8).isActive = true
 //stackView.heightAnchor.constraint(equalToConstant: 100)
@@ -152,9 +187,44 @@ class LoginVC: UIViewController {
     @objc func registerBtnHandler() {
         print("HIHIHIHIHIHIHIIHIHIHi")
         
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "EshraVC") as! EshraVC
-        self.present(vc , animated: true , completion: nil )
+        guard let email = emailTxt.text , let pass = passwordTxt.text , let name = nickNameTxt.text  else {
+            print("Ïnvalid Password and email")
+            return
+        }
+
+        guard loginRegisterSegment.selectedSegmentIndex == 0 else {
+            
+            Auth.auth().signIn(withEmail: email, password: pass, completion: { (user : User?, err) in
+                guard let user = user else {
+                    print(err?.localizedDescription)
+                    return
+                }
+                
+                self.dismiss(animated: true, completion: nil)
+            })
+            
+            return
+        }
+        Auth.auth().createUser(withEmail: email, password: pass) { (user : User?, err) in
+            guard   err == nil else {
+                print("that;s the error : \(err?.localizedDescription) ")
+                return
+            }
+            
+            let ref = Database.database().reference(fromURL: "https://fir-chat-8c379.firebaseio.com/")
+            let child = ref.child("Users").child(user!.uid)
+            let dict : [String:Any] = ["email":email,"name":name]
+            
+           child.updateChildValues(dict)
+            self.dismiss(animated: true, completion: nil)
+            
+        }
+        
+        
+        
+//        let sb = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = sb.instantiateViewController(withIdentifier: "EshraVC") as! EshraVC
+//        self.present(vc , animated: true , completion: nil )
     }
     
     
