@@ -25,10 +25,11 @@ class MainPageVC: UIViewController {
     
     @objc func handleNewSMS() {
         
-        print("New SMS")
+//        print("New SMS")
         
         let vc = NewSmsVC()
-        self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        self.present(vc, animated: true, completion: nil)
     }
     
     func checkIfUserLoggedIn() {

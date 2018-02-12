@@ -68,6 +68,8 @@ class LoginVC: UIViewController {
         img.contentMode = .scaleAspectFill
         img.image = UIImage(named:"2")
         img.translatesAutoresizingMaskIntoConstraints = false
+        img.isUserInteractionEnabled = true
+        img.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectImage)))
         return img
     }()
     
@@ -230,6 +232,16 @@ class LoginVC: UIViewController {
     
 }
 
+
+extension LoginVC : UIImagePickerControllerDelegate , UINavigationControllerDelegate {
+    
+    @objc func selectImage() {
+        
+        print("sadsasda")
+        
+    }
+    
+}
 
 extension UIColor {
     

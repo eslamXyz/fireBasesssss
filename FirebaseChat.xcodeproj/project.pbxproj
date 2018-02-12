@@ -21,6 +21,7 @@
 		8434295C2030A66400B49684 /* MainPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434295B2030A66400B49684 /* MainPageVC.swift */; };
 		8434295E2030AEE800B49684 /* NewSmsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434295D2030AEE800B49684 /* NewSmsVC.swift */; };
 		84703982202C8F4E002E663B /* EshraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84703981202C8F4E002E663B /* EshraVC.swift */; };
+		8472339C2031C61900FB88E6 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472339B2031C61900FB88E6 /* Users.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		8434295B2030A66400B49684 /* MainPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageVC.swift; sourceTree = "<group>"; };
 		8434295D2030AEE800B49684 /* NewSmsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSmsVC.swift; sourceTree = "<group>"; };
 		84703981202C8F4E002E663B /* EshraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EshraVC.swift; sourceTree = "<group>"; };
+		8472339B2031C61900FB88E6 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		8DEA8E01F3AB57AD8CBEB3A6 /* Pods-FirebaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirebaseChat/Pods-FirebaseChat.release.xcconfig"; sourceTree = "<group>"; };
 		8FDC6A8793D275A3F0F4D481 /* Pods-FirebaseChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseChatTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FirebaseChatTests/Pods-FirebaseChatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A6E27227AB3F54CFA53961A9 /* Pods-FirebaseChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseChatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FirebaseChatUITests/Pods-FirebaseChatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		8420F59820232141006E8EA2 = {
 			isa = PBXGroup;
 			children = (
+				8472339B2031C61900FB88E6 /* Users.swift */,
 				8420F5A320232141006E8EA2 /* FirebaseChat */,
 				8420F5B820232141006E8EA2 /* FirebaseChatTests */,
 				8420F5C320232141006E8EA2 /* FirebaseChatUITests */,
@@ -481,6 +484,7 @@
 				8420F5A520232141006E8EA2 /* AppDelegate.swift in Sources */,
 				8434295C2030A66400B49684 /* MainPageVC.swift in Sources */,
 				8434295E2030AEE800B49684 /* NewSmsVC.swift in Sources */,
+				8472339C2031C61900FB88E6 /* Users.swift in Sources */,
 				8420F5D320234311006E8EA2 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
